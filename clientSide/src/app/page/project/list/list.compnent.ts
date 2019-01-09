@@ -55,7 +55,7 @@ export class ListCompnent implements  OnInit{
     total : 0 ,
     columns: [
       { title: '请求地址', type: 'text', reflect: 'url' },
-      { title: '请求方法', type: 'text', reflect: 'method' },
+      { title: '请求方法', type: 'mark', reflect: 'method' },
       { title: '状态码', type: 'text', reflect: 'statusCode' },
       { title: '备注', type: 'text', reflect: 'remark' },
       { title: '创建时间', type: 'text', reflect: 'createTime' , filter : (item) => {

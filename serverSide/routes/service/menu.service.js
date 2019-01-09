@@ -29,7 +29,8 @@ const MenuService = {
 						});
 						const data = response(true ,arr  , '') ;
 						resolve(data) ;
-					}
+					};
+					con.end() ;
 				});
 			});
 		}));

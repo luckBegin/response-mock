@@ -33,8 +33,10 @@ const ListService = {
 							totalNumber: result[1][0].count
 						};
 						const data = response(true , result[0] , page ) ;
-						resolve(data)
+						resolve(data);
 					}
+
+					con.end() ;
 				});
 			});
 		}));
@@ -45,13 +47,27 @@ const ListService = {
 		let arr = [ data.url , data.method , data.statusCode , data.response , data.projectId  , data.remark] ;
 		return new Promise( ((resolve, reject) => {
 			mysql(con => {
-				con.query(_sql , arr , ( err , result ) => {
+				con.query("select count(id) as count from request where url = ? and method = ?" , [data.url , data.method] , (err , res) =>{
 					if(err){
 						reject( response(false , '' , '' , err)) ;
-					}else{
-						resolve( response(true , '' , '' ,'' )) ;
+						return ;
 					};
+
+					if(res[0] && res[0]['count'] <= 0){
+						con.query(_sql , arr , ( err2 , result ) => {
+							if(err2){
+								reject( response(false , '' , '' , err2)) ;
+							}else{
+								resolve( response(true , '' , '' ,'' )) ;
+							};
+							con.end() ;
+						});
+					}else{
+						reject( response(false , '' , '' , "该数据已存在")) ;
+						con.end() ;
+					}
 				});
+
 			});
 		}));
 	},
@@ -67,6 +83,7 @@ const ListService = {
 					}else{
 						resolve( response(true , '' , '' ,'' )) ;
 					};
+					con.end() ;
 				});
 			});
 		}));
@@ -109,6 +126,7 @@ const ListService = {
 					}else{
 						resolve( response(true , '' , '' ,'' )) ;
 					};
+					con.end() ;
 				});
 			});
 		}));

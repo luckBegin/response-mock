@@ -40,7 +40,8 @@ const ProjectService = {
 						};
 						const data = response(true , result[0] , page ) ;
 						resolve(data)
-					}
+					};
+					con.end() ;
 				});
 			});
 		}));
@@ -75,6 +76,8 @@ const ProjectService = {
 						reject( response(false , err , '' , '' )) ;
 					else
 						resolve( response(true , "" , "" ,"" )) ;
+
+					con.end() ;
 				});
 			})
 		}));
@@ -94,6 +97,7 @@ const ProjectService = {
 						reject( response(false ,'', '' , err ));
 					else
 						resolve( response(true , ''  , '' , '' )) ;
+					con.end() ;
 				});
 			})
 		}));
